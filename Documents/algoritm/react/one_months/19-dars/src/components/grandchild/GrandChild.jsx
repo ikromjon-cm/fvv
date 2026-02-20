@@ -1,9 +1,9 @@
 import React from 'react';
 
-const GrandChild = ({gchild}) => {
+const GrandChild = () => {
   return (
     <div>
-      <h1>salom {gchild}</h1>
+      
     </div>
   );
 }

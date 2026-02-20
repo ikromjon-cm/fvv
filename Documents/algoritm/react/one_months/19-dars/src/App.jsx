@@ -1,5 +1,7 @@
 import React from 'react';
 import Parent from './components/parent/Parent';
+import { UserContext } from './components/context/UserContext';
+import GrandChild from './components/grandchild/GrandChild';
 
 const App = () => {
 
@@ -7,7 +9,9 @@ const App = () => {
 
   return (
     <div>
-      <Parent user={user}/>
+      <UserContext.Provider value={user}>
+          <GrandChild/>
+      </UserContext.Provider>
     </div>
   );
 }
