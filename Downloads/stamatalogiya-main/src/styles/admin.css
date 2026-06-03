@@ -1,0 +1,219 @@
+.admin-page {
+  max-width: 1200px;
+}
+
+.admin-login {
+  max-width: 400px;
+  margin: 4rem auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.admin-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 0.5rem;
+}
+
+.admin-content {
+  min-height: 400px;
+}
+
+.admin-header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-list-item {
+  position: relative;
+  padding-right: 3rem;
+}
+
+.admin-list-item .btn-ghost {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.map-live {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  min-height: 280px;
+  background: var(--bg-muted);
+}
+
+.map-iframe {
+  width: 100%;
+  height: 280px;
+  border: 0;
+  display: block;
+}
+
+.map-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.map-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.clinic-address,
+.clinic-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--teal-700);
+}
+
+.clinic-address a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.course-thumb-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.course-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.course-meta-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.video-player-wrap {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #000;
+  margin-bottom: 1.5rem;
+}
+
+.video-player {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  display: block;
+}
+
+.course-detail-body {
+  max-width: 720px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--teal-700);
+  font-weight: 500;
+}
+
+.app-icon {
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+.feature-icon-svg,
+.media-icon-svg {
+  color: var(--gold-light);
+}
+
+.feature-icon .app-icon {
+  color: var(--gold-light);
+}
+
+.gate-icon .app-icon {
+  color: var(--gold);
+}
+
+.search-icon.app-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--slate-400);
+  pointer-events: none;
+}
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.rating-star {
+  color: var(--gold);
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.theme-icon-svg {
+  color: var(--gold-light);
+}
+
+.play-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+}
+
+@media (max-width: 768px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-tabs {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

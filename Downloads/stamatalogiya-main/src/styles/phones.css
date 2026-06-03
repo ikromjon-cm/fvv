@@ -1,0 +1,191 @@
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+}
+
+#root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+}
+
+@supports (width: 100dvw) {
+  body,
+  #root,
+  main {
+    max-width: 100dvw;
+  }
+}
+
+.page {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.grid-products {
+  grid-template-columns: 1fr;
+  gap: clamp(0.85rem, 3.5vw, 1.25rem);
+}
+
+@media (min-width: 768px) {
+  .grid-products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-products {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.card .media,
+.course-thumb-wrap .media {
+  width: 100%;
+}
+
+.course-thumb-wrap {
+  display: block;
+  width: 100%;
+  line-height: 0;
+}
+
+.course-thumb-wrap .course-play {
+  z-index: 5;
+}
+
+.course-progress-badge {
+  z-index: 6;
+  max-width: calc(100% - 1rem);
+}
+
+.play-btn {
+  width: clamp(44px, 12vw, 56px);
+  height: clamp(44px, 12vw, 56px);
+}
+
+.map-pin {
+  width: clamp(10px, 2.5vw, 14px);
+  height: clamp(10px, 2.5vw, 14px);
+}
+
+@media (max-width: 767px) {
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .card:hover {
+    transform: none;
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-body {
+    padding: clamp(0.85rem, 3.5vw, 1.25rem);
+  }
+
+  .btn-lg {
+    padding: 0.75rem 1.25rem;
+    font-size: clamp(0.875rem, 3.5vw, 1rem);
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .modal {
+    width: 100%;
+    margin: 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    align-self: flex-end;
+  }
+
+  .modal-overlay {
+    align-items: flex-end;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 767px) {
+  .grid-2.grid-marketplace-ads {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .grid-2.grid-marketplace-ads {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 374px) {
+  .header-inner {
+    gap: 0.25rem;
+  }
+
+  .settings-compact {
+    gap: 0.25rem;
+  }
+
+  .filter {
+    gap: 0.35rem;
+  }
+
+  .chip {
+    font-size: 0.72rem;
+    padding: 0.4rem 0.65rem;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 413px) {
+  :root {
+    --media-icon-size: clamp(1.5rem, 8vw, 2.25rem);
+  }
+}
+
+@media (min-width: 414px) and (max-width: 767px) {
+  :root {
+    --media-h-card: clamp(7rem, 30vw, 11.5rem);
+    --media-h-course: clamp(7.25rem, 32vw, 12rem);
+  }
+}
+
+@media (min-width: 428px) and (max-width: 767px) {
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (spanning: single-fold-vertical), (spanning: single-fold-horizontal) {
+  .grid-3,
+  .grid-products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page {
+    max-width: 100%;
+  }
+}
+
+@media (display-mode: standalone) {
+  body {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .header {
+    padding-top: env(safe-area-inset-top);
+  }
+}
