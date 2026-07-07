@@ -5,11 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Shield,
   Activity,
-  Camera,
-  X,
   Play,
   Search,
-  ExternalLink,
   List,
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -18,7 +15,6 @@ import { useFvvStore } from '@/store/fvvStore'
 import { navItems, getUserRole } from '@/lib/roles'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { NotificationBell } from '@/components/shared/notification-bell'
 import dynamic from 'next/dynamic'
 
@@ -98,9 +94,9 @@ export default function DashboardPage() {
   const latestCritical = incidents.filter((i) => i.severity === 'CRITICAL' && i.status !== 'RESOLVED')
 
   return (
-    <div className="h-screen overflow-hidden bg-medid-surface flex flex-col">
+    <div className="bg-medid-surface">
       {/* Top Stats Bar */}
-      <div className="shrink-0 bg-medid-navy px-3 sm:px-6 py-2 sm:py-3">
+      <div className="bg-medid-navy px-3 sm:px-6 py-2 sm:py-3">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-3">
             <Shield className="h-6 w-6 text-[#0066FF]" />
@@ -149,237 +145,109 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Main Content - Video Wall Layout */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Center - Map Area */}
-        <div className="flex-1 relative bg-[#0A1628]/90 overflow-hidden">
-          <FvvMap incidents={filteredIncidents} selectedId={selectedIncident?.id} onSelect={setSelectedIncident} />
-
-          {/* Alert Log Overlay - Bottom Right */}
-          <div className="absolute bottom-3 right-3 w-72">
-            <AnimatePresence>
-              {alertLog.map((msg) => (
-                <motion.div
-                  key={msg}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  className="text-[11px] text-white/70 bg-black/50 rounded px-2 py-1 mb-1 font-mono"
-                >
-                  {msg}
-                </motion.div>
-              ))}
-            </AnimatePresence>
+      {/* Map Section */}
+      <div className="p-4 sm:p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="rounded-xl overflow-hidden border border-medid-border" style={{ height: 400 }}>
+            <FvvMap incidents={filteredIncidents} selectedId={selectedIncident?.id} onSelect={setSelectedIncident} />
           </div>
 
-          {/* Category Filters */}
-          <div className="absolute top-3 left-3 flex gap-1.5 flex-wrap max-w-md">
-            <button
-              onClick={() => setFilterCat('all')}
-              className={`px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors ${
-                filterCat === 'all' ? 'bg-[#0066FF] text-white' : 'bg-black/40 text-white/70 hover:bg-black/60'
-              }`}
-            >
-              Barchasi ({incidents.length})
-            </button>
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setFilterCat(cat)}
-                className={`px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors whitespace-nowrap ${
-                  filterCat === cat ? 'bg-[#0066FF] text-white' : 'bg-black/40 text-white/70 hover:bg-black/60'
-                }`}
-              >
-                {cat}
-              </button>
+          {/* Alert Log */}
+          <div className="mt-3 flex flex-wrap gap-2">
+            {alertLog.map((msg, i) => (
+              <span key={i} className="text-[11px] bg-black/5 rounded px-2 py-1 text-medid-muted font-mono">{msg}</span>
             ))}
-          </div>
-        </div>
-
-        {/* Sidebar Overlay (mobile) */}
-        {sidebarOpen && <div className="fixed inset-0 bg-black/50 z-20 lg:hidden" onClick={() => setSidebarOpen(false)} />}
-
-        {/* Right Sidebar - Incidents List */}
-        <div className={`${sidebarOpen ? 'fixed right-0 top-0 bottom-0 w-full sm:w-96 z-30' : 'hidden'} lg:relative lg:block lg:w-96 shrink-0 border-l border-medid-border bg-medid-card flex flex-col`}>
-          <div className="shrink-0 px-4 py-3 border-b border-medid-border space-y-2">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-medid-text">Hodisalar ro'yxati</h2>
-              <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-1 rounded hover:bg-gray-100">
-                <X className="h-4 w-4 text-medid-muted" />
-              </button>
-            </div>
-            <div className="flex gap-1.5">
-              <div className="relative flex-1">
-                <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-medid-muted" />
-                <input
-                  type="text"
-                  placeholder="Qidirish..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-7 pr-2 py-1.5 text-[11px] rounded-lg border border-medid-border bg-medid-surface text-medid-text placeholder:text-medid-muted focus:outline-none focus:border-[#0066FF]"
-                />
-              </div>
-              <select
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value)}
-                className="text-[11px] px-2 py-1.5 rounded-lg border border-medid-border bg-medid-surface text-medid-text focus:outline-none focus:border-[#0066FF]"
-              >
-                <option value="all">Barcha</option>
-                <option value="UNDER_INVESTIGATION">Tekshirilmoqda</option>
-                <option value="IN_PROGRESS">Jarayonda</option>
-                <option value="RESOLVED">Hal qilingan</option>
-              </select>
-            </div>
-          </div>
-          <div className="flex-1 overflow-y-auto scrollbar-thin p-3 space-y-2">
-            {isLoading ? (
-              Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="animate-pulse rounded-xl bg-gray-100 p-4 h-24" />
-              ))
-            ) : (
-              <AnimatePresence>
-                {filteredIncidents.map((inc, idx) => (
-                  <motion.div
-                    key={inc.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                    onClick={() => setSelectedIncident(inc)}
-                    onDoubleClick={() => router.push(`/incidents/${inc.id}`)}
-                    className={`group rounded-xl border p-3 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                      selectedIncident?.id === inc.id
-                        ? 'border-[#0066FF] bg-[#0066FF]/5 shadow-sm'
-                        : 'border-medid-border bg-medid-card hover:border-medid-muted/30'
-                    }`}
-                  >
-                    <div className="flex gap-3">
-                      <img
-                        src={inc.initial_report_photo}
-                        alt=""
-                        className="h-14 w-14 rounded-lg object-cover shrink-0"
-                        onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/200x150?text=No+Image' }}
-                      />
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-1.5 flex-wrap">
-                          <Badge
-                            variant={
-                              inc.severity === 'CRITICAL' ? 'danger' :
-                              inc.severity === 'HIGH' ? 'warning' :
-                              inc.severity === 'MEDIUM' ? 'info' : 'success'
-                            }
-                            size="sm"
-                          >
-                            {severityConfig[inc.severity]?.label || inc.severity}
-                          </Badge>
-                          <span className="text-[11px] font-mono text-medid-muted">{inc.id}</span>
-                        </div>
-                        <p className="text-sm font-medium text-medid-text truncate mt-1">{inc.category}</p>
-                        <p className="text-[11px] text-medid-muted truncate">
-                          {inc.neighborhood} • {inc.household_address}
-                        </p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${statusConfig[inc.status]?.color || ''} text-white`}>
-                            {statusConfig[inc.status]?.label || inc.status}
-                          </span>
-                          <span className="text-[10px] text-medid-muted">{inc.inspection_timestamp}</span>
-                        </div>
-                      </div>
-                      <div className="shrink-0 self-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <ExternalLink className="h-4 w-4 text-medid-muted" />
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            )}
           </div>
         </div>
       </div>
 
-      {/* Selected Incident Detail Panel */}
-      <AnimatePresence>
-        {selectedIncident && (
-          <motion.div
-            initial={{ opacity: 0, y: 300 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 300 }}
-            className="fixed bottom-0 left-0 right-0 z-50 bg-medid-card border-t border-medid-border shadow-2xl"
-          >
-            <div className="max-w-7xl mx-auto p-3 sm:p-4">
-              <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
-                {/* Photo 1 */}
-                <div className="w-full sm:w-48 shrink-0">
-                  <p className="text-[11px] font-medium text-medid-muted mb-1">❌ Muammo (Foto-1)</p>
-                  <img
-                    src={selectedIncident.initial_report_photo}
-                    alt=""
-                    className="w-full h-32 rounded-lg object-cover border border-medid-border"
-                    onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=No+Image' }}
-                  />
-                </div>
+      {/* Incidents Section */}
+      <div className="pb-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center gap-3 mb-4">
+            <h2 className="text-base font-semibold text-medid-text">Hodisalar</h2>
+            <div className="flex gap-1.5 flex-1">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setFilterCat(cat)}
+                  className={`px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors ${
+                    filterCat === cat ? 'bg-[#0066FF] text-white' : 'bg-medid-card border border-medid-border text-medid-muted hover:bg-medid-surface'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+            <div className="relative w-48">
+              <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-medid-muted" />
+              <input
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Qidirish..."
+                className="w-full pl-7 pr-2 py-1.5 text-xs rounded-lg border border-medid-border bg-medid-card text-medid-text placeholder:text-medid-muted focus:outline-none focus:border-[#0066FF]"
+              />
+            </div>
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="text-xs px-2 py-1.5 rounded-lg border border-medid-border bg-medid-card text-medid-text focus:outline-none focus:border-[#0066FF]"
+            >
+              <option value="all">Barcha</option>
+              <option value="UNDER_INVESTIGATION">Tekshirilmoqda</option>
+              <option value="IN_PROGRESS">Jarayonda</option>
+              <option value="RESOLVED">Hal qilingan</option>
+            </select>
+          </div>
 
-                {/* Info */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-base font-semibold text-medid-text">{selectedIncident.category}</h3>
-                    <Badge variant={selectedIncident.severity === 'CRITICAL' ? 'danger' : selectedIncident.severity === 'HIGH' ? 'warning' : 'info'}>
-                      {severityConfig[selectedIncident.severity]?.label || selectedIncident.severity}
-                    </Badge>
-                  </div>
-                  <div className="mt-2 grid grid-cols-3 gap-2 text-sm">
-                    <div>
-                      <span className="text-medid-muted text-[11px]">Manzil:</span>
-                      <p className="text-medid-text text-xs">{selectedIncident.neighborhood}, {selectedIncident.household_address}</p>
-                    </div>
-                    <div>
-                      <span className="text-medid-muted text-[11px]">Xodim:</span>
-                      <p className="text-medid-text text-xs">{selectedIncident.reporter}</p>
-                    </div>
-                    <div>
-                      <span className="text-medid-muted text-[11px]">Muddat:</span>
-                      <p className="text-medid-text text-xs">{selectedIncident.resolution_deadline}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 mt-2">
-                    <Badge variant={selectedIncident.validation_status === 'APPROVED' ? 'success' : selectedIncident.validation_status === 'REJECTED' ? 'danger' : 'warning'} size="sm">
-                      {validationConfig[selectedIncident.validation_status]?.label}
-                    </Badge>
-                    <span className="text-xs text-medid-muted">{selectedIncident.inspection_timestamp}</span>
-                  </div>
-                </div>
-
-                {/* Photo 2 or placeholder */}
-                <div className="w-full sm:w-48 shrink-0">
-                  <p className="text-[11px] font-medium text-medid-muted mb-1">✅ Hal qilingan (Foto-2)</p>
-                  {selectedIncident.resolved_photo ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {isLoading ? (
+              Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="animate-pulse rounded-xl bg-medid-card p-4 h-28 border border-medid-border" />
+              ))
+            ) : filteredIncidents.length === 0 ? (
+              <div className="col-span-full text-center py-12 text-medid-muted text-sm">Hodisalar mavjud emas</div>
+            ) : (
+              filteredIncidents.map((inc, idx) => (
+                <motion.div
+                  key={inc.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.03 }}
+                  onClick={() => setSelectedIncident(inc)}
+                  onDoubleClick={() => router.push(`/incidents/${inc.id}`)}
+                  className="group rounded-xl border border-medid-border bg-medid-card p-4 cursor-pointer transition-all hover:shadow-md"
+                >
+                  <div className="flex gap-3">
                     <img
-                      src={selectedIncident.resolved_photo}
+                      src={inc.initial_report_photo}
                       alt=""
-                      className="w-full h-32 rounded-lg object-cover border border-medid-border"
-                      onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=No+Image' }}
+                      className="h-14 w-14 rounded-lg object-cover shrink-0"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
                     />
-                  ) : (
-                    <div className="w-full h-32 rounded-lg border-2 border-dashed border-medid-border flex items-center justify-center bg-gray-50">
-                      <div className="text-center">
-                        <Camera className="h-6 w-6 text-medid-muted mx-auto" />
-                        <p className="text-[11px] text-medid-muted mt-1">Xodim tasviri kutilmoqda</p>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <Badge variant={inc.severity === 'CRITICAL' ? 'danger' : inc.severity === 'HIGH' ? 'warning' : inc.severity === 'MEDIUM' ? 'info' : 'success'} size="sm">
+                          {severityConfig[inc.severity]?.label || inc.severity}
+                        </Badge>
+                        <span className="text-[11px] font-mono text-medid-muted">{inc.id}</span>
+                      </div>
+                      <p className="text-sm font-medium text-medid-text truncate mt-1">{inc.category}</p>
+                      <p className="text-[11px] text-medid-muted truncate">{inc.neighborhood} • {inc.household_address}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${statusConfig[inc.status]?.color || ''} text-white`}>
+                          {statusConfig[inc.status]?.label || inc.status}
+                        </span>
+                        <span className="text-[10px] text-medid-muted">{inc.inspection_timestamp}</span>
                       </div>
                     </div>
-                  )}
-                </div>
-
-                {/* Close */}
-                <button
-                  onClick={() => setSelectedIncident(null)}
-                  className="shrink-0 p-1 rounded-lg hover:bg-medid-surface text-medid-muted"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  </div>
+                </motion.div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -437,9 +305,7 @@ function FvvMap({
   )
 
   return (
-    <div className="absolute inset-0">
-      <LeafletMap center={center} zoom={14} markers={markers} className="w-full h-full" />
-    </div>
+    <LeafletMap center={center} zoom={14} markers={markers} className="w-full h-full" />
   )
 }
 

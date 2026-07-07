@@ -41,7 +41,7 @@ export default function MapPage() {
   })), [incidents, setSelectedIncident])
 
   return (
-    <div className="h-screen overflow-hidden bg-medid-navy flex flex-col">
+    <div className="min-h-screen overflow-hidden bg-medid-navy flex flex-col">
       {/* Header */}
       <div className="shrink-0 bg-medid-navy/80 border-b border-white/10 px-6 py-2 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -95,7 +95,7 @@ export default function MapPage() {
                       src={selectedIncident.initial_report_photo}
                       alt=""
                       className="w-full h-full object-cover"
-                      onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/100x100?text=N' }}
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
