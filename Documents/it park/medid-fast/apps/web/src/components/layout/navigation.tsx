@@ -67,7 +67,7 @@ export function SidebarDrawer() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="md:hidden fixed top-3 left-3 z-30 p-2 rounded-lg bg-medid-navy text-white shadow-lg"
+        className="md:hidden fixed top-3 left-3 z-30 p-2 rounded-lg bg-medid-sidebar text-medid-sidebar-text shadow-lg"
         aria-label="Menyu"
       >
         <Menu className="h-5 w-5" />
@@ -75,17 +75,17 @@ export function SidebarDrawer() {
 
       {open && <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setOpen(false)} />}
 
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-medid-navy text-white transform transition-transform ${
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-medid-sidebar text-medid-sidebar-text transform transition-transform ${
         open ? 'translate-x-0' : '-translate-x-full'
       }`}>
-        <div className="flex items-center justify-between px-4 h-14 border-b border-white/10">
+        <div className="flex items-center justify-between px-4 h-14 border-b border-medid-sidebar-border">
           <div className="flex items-center gap-2">
             <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#0066FF]">
               <Shield className="h-4 w-4 text-white" />
             </div>
-            <p className="text-sm font-bold">FVV Ekotizimi</p>
+            <p className="text-sm font-bold text-medid-sidebar-text">FVV Ekotizimi</p>
           </div>
-          <button onClick={() => setOpen(false)} className="p-1 rounded hover:bg-white/10">
+          <button onClick={() => setOpen(false)} className="p-1 rounded hover:bg-medid-sidebar-hover">
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -100,8 +100,8 @@ export function SidebarDrawer() {
                 onClick={() => setOpen(false)}
                 className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors ${
                   active
-                    ? 'bg-[#0066FF]/20 text-white font-medium'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                    ? 'bg-medid-sidebar-active text-medid-sidebar-text font-medium'
+                    : 'text-medid-sidebar-muted hover:text-medid-sidebar-text hover:bg-medid-sidebar-hover'
                 }`}
               >
                 <Icon className="h-4 w-4 shrink-0" />
