@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-medid-primary: #0066FF;
+  --color-medid-primary-dark: #0052CC;
+  --color-medid-emergency: #DC2626;
+  --color-medid-emergency-dark: #B91C1C;
+  --color-medid-success: #22C55E;
+  --color-medid-warning: #F59E0B;
+  --color-medid-navy: #0A1628;
+  --color-medid-navy-light: #1A2A44;
+  --color-medid-surface: #F1F5F9;
+  --color-medid-card: #FFFFFF;
+  --color-medid-border: #E2E8F0;
+  --color-medid-text: #0F172A;
+  --color-medid-muted: #64748B;
+  --color-medid-sidebar: #0F172A;
+  --color-medid-sidebar-hover: #1E293B;
+  --color-medid-sidebar-active: #1E3A5F;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+.dark {
+  --color-medid-surface: #0F172A;
+  --color-medid-card: #1E293B;
+  --color-medid-border: #334155;
+  --color-medid-text: #F1F5F9;
+  --color-medid-muted: #94A3B8;
+  --color-medid-navy: #020617;
+  --color-medid-navy-light: #0F172A;
+  --color-medid-sidebar: #0A1628;
+  --color-medid-sidebar-hover: #1E293B;
+  --color-medid-sidebar-active: #1E3A5F;
+}
+
+@layer base {
+  * { @apply border-medid-border; }
+  body { @apply bg-medid-surface text-medid-text font-sans antialiased transition-colors duration-200; }
+}
+
+@keyframes pulse-emergency {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-left {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+}
+
+@utility animate-pulse-emergency {
+  animation: pulse-emergency 1s ease-in-out infinite;
+}
+
+@utility animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+@utility animate-slide-left {
+  animation: slide-left 0.3s ease-out;
+}
+
+@utility animate-pulse-dot {
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E1 transparent;
+}
+
+.dark .scrollbar-thin {
+  scrollbar-color: #475569 transparent;
+}
