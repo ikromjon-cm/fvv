@@ -1,0 +1,5 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npx turbo build --filter=@medid/web",
+  "outputDirectory": ".next"
+}

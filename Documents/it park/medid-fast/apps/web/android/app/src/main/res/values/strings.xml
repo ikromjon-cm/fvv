@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">FVV Ekotizimi</string>
+    <string name="title_activity_main">FVV Ekotizimi</string>
+    <string name="package_name">uz.fvv.ekotizim</string>
+    <string name="custom_url_scheme">uz.fvv.ekotizim</string>
+</resources>
